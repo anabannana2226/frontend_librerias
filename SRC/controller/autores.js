@@ -1,18 +1,11 @@
 const pool = require('../models/connection');
 
 // GET - Obtener todos los autores
-function obtenerAutores(req, res) {
+async function obtenerAutores(req, res) {
     try {
         const query = "SELECT * FROM autores";
-
-        pool.query(query, (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send("Error en el servidor");
-            }
-            res.json(result.rows);
-        });
-
+        const result = await pool.query(query);
+        res.json(result.rows);
     } catch (err) {
         console.error(err);
         res.status(500).send("Error en el servidor");
@@ -20,24 +13,16 @@ function obtenerAutores(req, res) {
 }
 
 // GET - Obtener autor por ID
-function obtenerAutorPorId(req, res) {
+async function obtenerAutorPorId(req, res) {
     try {
         const id = req.params.id;
-        const query = "SELECT * FROM autores WHERE id_autor = $1";
+        const query = "SELECT * FROM autores WHERE id = $1";
+        const result = await pool.query(query, [id]);
 
-        pool.query(query, [id], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send("Error en el servidor");
-            }
-
-            if (result.rows.length === 0) {
-                return res.status(404).json({ mensaje: "Autor no encontrado" });
-            }
-
-            res.json(result.rows[0]);
-        });
-
+        if (result.rows.length === 0) {
+            return res.status(404).json({ mensaje: "Autor no encontrado" });
+        }
+        res.json(result.rows[0]);
     } catch (err) {
         console.error(err);
         res.status(500).send("Error en el servidor");
@@ -45,126 +30,95 @@ function obtenerAutorPorId(req, res) {
 }
 
 // POST - Insertar autor
-function insertarAutor(req, res) {
+async function insertarAutor(req, res) {
     try {
-        const { nombre, apellido, edad } = req.body;
-
+        const { nombre, apellido, nacionalidad, biografia, fecha_nacimiento } = req.body;
         const query = `
-            INSERT INTO autores (nombre, apellido, edad)
-            VALUES ($1,$2,$3)
+            INSERT INTO autores (nombre, apellido, nacionalidad, biografia, fecha_nacimiento)
+            VALUES ($1,$2,$3,$4,$5)
             RETURNING *
         `;
+        const result = await pool.query(query, [nombre, apellido, nacionalidad, biografia, fecha_nacimiento]);
 
-        pool.query(query, [nombre, apellido, edad], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send("Error al insertar");
-            }
-
-            res.json({
-                mensaje: "Autor insertado correctamente",
-                autor: result.rows[0]
-            });
+        res.json({
+            mensaje: "Autor insertado correctamente",
+            autor: result.rows[0]
         });
-
     } catch (err) {
         console.error(err);
-        res.status(500).send("Error en el servidor");
+        res.status(500).send("Error al insertar");
     }
 }
 
 // PUT - Actualizar completamente
-function actualizarAutor(req, res) {
+async function actualizarAutor(req, res) {
     try {
         const id = req.params.id;
-        const { nombre, apellido, edad } = req.body;
-
+        const { nombre, apellido, nacionalidad, biografia, fecha_nacimiento } = req.body;
         const query = `
             UPDATE autores
-            SET nombre=$1, apellido=$2, edad=$3
-            WHERE id_autor=$4
+            SET nombre=$1, apellido=$2, nacionalidad=$3, biografia=$4, fecha_nacimiento=$5
+            WHERE id=$6
             RETURNING *
         `;
+        const result = await pool.query(query, [nombre, apellido, nacionalidad, biografia, fecha_nacimiento, id]);
 
-        pool.query(query, [nombre, apellido, edad, id], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send("Error al actualizar");
-            }
+        if (result.rows.length === 0) {
+            return res.status(404).json({ mensaje: "Autor no encontrado" });
+        }
 
-            if (result.rows.length === 0) {
-                return res.status(404).json({ mensaje: "Autor no encontrado" });
-            }
-
-            res.json({
-                mensaje: "Autor actualizado completamente",
-                autor: result.rows[0]
-            });
+        res.json({
+            mensaje: "Autor actualizado completamente",
+            autor: result.rows[0]
         });
-
     } catch (err) {
         console.error(err);
-        res.status(500).send("Error en el servidor");
+        res.status(500).send("Error al actualizar");
     }
 }
 
-// PATCH - Actualizar solo edad
-function actualizarParcialAutor(req, res) {
+// PATCH - Actualizar solo nacionalidad
+async function actualizarParcialAutor(req, res) {
     try {
         const id = req.params.id;
-        const { edad } = req.body;
-
+        const { nacionalidad } = req.body;
         const query = `
             UPDATE autores
-            SET edad=$1
-            WHERE id_autor=$2
+            SET nacionalidad=$1
+            WHERE id=$2
             RETURNING *
         `;
+        const result = await pool.query(query, [nacionalidad, id]);
 
-        pool.query(query, [edad, id], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send("Error al actualizar parcialmente");
-            }
+        if (result.rows.length === 0) {
+            return res.status(404).json({ mensaje: "Autor no encontrado" });
+        }
 
-            if (result.rows.length === 0) {
-                return res.status(404).json({ mensaje: "Autor no encontrado" });
-            }
-
-            res.json({
-                mensaje: "Autor actualizado parcialmente",
-                autor: result.rows[0]
-            });
+        res.json({
+            mensaje: "Autor actualizado parcialmente",
+            autor: result.rows[0]
         });
-
     } catch (err) {
         console.error(err);
-        res.status(500).send("Error en el servidor");
+        res.status(500).send("Error al actualizar");
     }
 }
 
 // DELETE - Eliminar autor
-function eliminarAutor(req, res) {
+async function eliminarAutor(req, res) {
     try {
         const id = req.params.id;
-        const query = "DELETE FROM autores WHERE id_autor=$1 RETURNING *";
+        const query = "DELETE FROM autores WHERE id=$1 RETURNING *";
+        const result = await pool.query(query, [id]);
 
-        pool.query(query, [id], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send("Error al eliminar");
-            }
+        if (result.rows.length === 0) {
+            return res.status(404).json({ mensaje: "Autor no encontrado" });
+        }
 
-            if (result.rows.length === 0) {
-                return res.status(404).json({ mensaje: "Autor no encontrado" });
-            }
-
-            res.json({ mensaje: "Autor eliminado correctamente" });
-        });
-
+        res.json({ mensaje: "Autor eliminado correctamente" });
     } catch (err) {
         console.error(err);
-        res.status(500).send("Error en el servidor");
+        res.status(500).send("Error al eliminar");
     }
 }
 

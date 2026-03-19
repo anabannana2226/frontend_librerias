@@ -1,0 +1,7 @@
+Primero abre una terminal y ejecuta
+
+npm install && npm run dev
+
+Despues vuelve a abrir otra terminal sin cerrar la primera, y ejecuta
+
+cd frontend && npm install && npm run dev

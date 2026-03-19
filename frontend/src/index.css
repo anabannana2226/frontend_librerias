@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-libreria-papel text-libreria-madera font-sans;
+  }
+  
+  h1, h2, h3, h4 {
+    @apply font-classic font-bold;
+  }
+}
+
+.glass {
+  @apply bg-white/40 backdrop-blur-md border border-white/40 shadow-xl;
+}
+
+.table-row-hover {
+  @apply transition-colors duration-200 hover:bg-libreria-pergamino/30;
+}
+
+.btn-primary {
+  @apply bg-libreria-madera text-libreria-papel px-4 py-2 rounded-lg hover:bg-libreria-madera_clara transition-all duration-300 shadow-md hover:shadow-lg active:scale-95;
+}
+
+.input-field {
+  @apply bg-white/60 border border-libreria-madera/20 rounded-lg focus:ring-2 focus:ring-libreria-oro focus:border-transparent outline-none transition-all duration-200;
+}
