@@ -7,7 +7,10 @@ import Autores from './paginas/Autores';
 
 function App() {
   const estaAutenticado = () => {
-    return localStorage.getItem('usuario') !== null;
+    
+ const usuario = localStorage.getItem('usuario');
+
+return usuario !== null && usuario !== undefined;
   };
 
   const RutaProtegida = ({ children }) => {
