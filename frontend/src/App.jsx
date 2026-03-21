@@ -6,12 +6,12 @@ import Libros from './paginas/Libros';
 import Autores from './paginas/Autores';
 
 function App() {
+  
   const estaAutenticado = () => {
-    
- const usuario = localStorage.getItem('usuario');
-
-return usuario !== null && usuario !== undefined;
-  };
+  const usuario = localStorage.getItem('usuario');
+  // Se añade la validación contra el string 'undefined'
+  return usuario !== null && usuario !== 'undefined' && usuario !== '';
+};
 
   const RutaProtegida = ({ children }) => {
     return estaAutenticado() ? children : <Navigate to="/" />;
