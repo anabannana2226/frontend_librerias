@@ -17,7 +17,7 @@ const Login = () => {
     setError('');
 
 try {
-      const res = await axios.post('https://apis-react-libreria-1.onrender.com/api/usuarios/login', { email, password });
+      const res = await axios.post('https://apis-react-libreria.onrender.com/api/usuarios/login', { email, password });
 
       // Verificar que la API realmente esté enviando el objeto usuario
       if (res.data && res.data.usuario) {
@@ -34,7 +34,7 @@ try {
       setCargando(false);
     }
   };
-  
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-libreria-madera">
       <div
