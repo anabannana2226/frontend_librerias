@@ -6,8 +6,8 @@ import Modal from '../componentes/Modal';
 import Alerta from '../componentes/Alerta';
 import { Plus, BookOpen, Search, Filter } from 'lucide-react';
 
-const API_URL = 'http://localhost:3000/api/libros';
-const AUTORES_URL = 'http://localhost:3000/api/autores';
+const API_URL = 'https://apis-react-libreria-1.onrender.com/api/libros';
+const AUTORES_URL = 'https://apis-react-libreria-1.onrender.com/api/autores';
 
 const Libros = () => {
   const [libros, setLibros] = useState([]);
