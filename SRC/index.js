@@ -8,9 +8,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const librosRoutes = require('./SRC/routes/crud');
-const autoresRoutes = require('./SRC/routes/autores');
-const usuariosRoutes = require('./SRC/routes/usuarios');
+const librosRoutes = require('./routes/crud');
+const autoresRoutes = require('./routes/autores');
+const usuariosRoutes = require('./routes/usuarios');
 
 app.use("/api/libros", librosRoutes);
 app.use('/api/autores', autoresRoutes);
