@@ -87,7 +87,7 @@ const Libros = () => {
       
       setModalAbierto(false);
       setTimeout(() => {
-        window.location.reload();
+        fetchLibros();
       }, 800);
 
     } catch (err) {
@@ -103,7 +103,7 @@ const Libros = () => {
         await axios.delete(`${API_URL}/${id}`);
         mostrarAlerta('Libro eliminado', 'exito');
         setTimeout(() => {
-          window.location.reload();
+          fetchLibros();
         }, 1500);
       } catch (err) {
         mostrarAlerta('Error al eliminar el libro', 'error');

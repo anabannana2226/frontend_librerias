@@ -73,7 +73,7 @@ const Autores = () => {
       setModalAbierto(false);
       
       setTimeout(() => {
-        window.location.reload();
+        fetchAutores();
       }, 800);
     } catch (err) {
       console.error('Error al guardar autor:', err);
@@ -89,7 +89,7 @@ const Autores = () => {
         await axios.delete(`${API_URL}/${id}`);
         mostrarAlerta('Autor eliminado', 'exito');
         setTimeout(() => {
-          window.location.reload();
+          fetchAutores();
         }, 1500);
       } catch (err) {
         mostrarAlerta('Error al eliminar el autor. Verifique que no tenga libros asociados.', 'error');
