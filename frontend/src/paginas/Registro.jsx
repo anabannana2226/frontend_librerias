@@ -26,7 +26,7 @@ const Registro = () => {
 
     setCargando(true);
     try {
-      await axios.post('https://apis-react-libreria.onrender.com/api/usuarios/registro', {
+      await axios.post('https://api-libreria-2m5i.onrender.com/api/usuarios/registro', {
         nombre: formData.nombre,
         email: formData.email,
         password: formData.password

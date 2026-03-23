@@ -5,7 +5,7 @@ import { Book, Users, LogOut, LayoutDashboard, Library } from 'lucide-react';
 const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
   const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-  const inicial = usuario.nombre.charAt(0).toUpperCase();
+  const inicial = usuario?.nombre?.charAt(0).toUpperCase() || 'U';
 
   const handleCerrarSesion = () => {
     localStorage.removeItem('usuario');

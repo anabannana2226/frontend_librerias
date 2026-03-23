@@ -17,17 +17,15 @@ const Login = () => {
     setError('');
 
 try {
-      const res = await axios.post('https://apis-react-libreria.onrender.com/api/usuarios/login', { email, password });
+  const res = await axios.post('https://api-libreria-2m5i.onrender.com/api/usuarios/login', { email, password });
 
-      // Verificar que la API realmente esté enviando el objeto usuario
-      if (res.data && res.data.usuario) {
-        localStorage.setItem('usuario', JSON.stringify(res.data.usuario));
-        navigate('/libros');
-      } else {
-        // Manejo de error si la API responde diferente a lo esperado (por ejemplo, si no viene res.data.usuario)
-        setError('Error: el servidor no retornó los datos del usuario.');
-      }
-    } catch (err) {
+  if (res.data && res.data.usuario) {
+    localStorage.setItem('usuario', JSON.stringify(res.data.usuario));
+    navigate('/libros');
+  } else {
+    setError('Error: el servidor no retornó los datos del usuario.');
+  }
+} catch (err) {
       console.error(err);
       setError('Credenciales inválidas o servidor desconectado');
     } finally {

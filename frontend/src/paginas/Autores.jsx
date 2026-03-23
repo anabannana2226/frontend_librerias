@@ -6,7 +6,7 @@ import Modal from '../componentes/Modal';
 import Alerta from '../componentes/Alerta';
 import { Plus, Users, Search, Filter } from 'lucide-react';
 
-const API_URL = 'https://apis-react-libreria.onrender.com/api/autores';
+const API_URL = 'https://api-libreria-2m5i.onrender.com/api/autores';
 
 const Autores = () => {
   const [autores, setAutores] = useState([]);

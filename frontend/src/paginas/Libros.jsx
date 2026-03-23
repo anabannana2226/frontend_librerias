@@ -6,8 +6,9 @@ import Modal from '../componentes/Modal';
 import Alerta from '../componentes/Alerta';
 import { Plus, BookOpen, Search, Filter } from 'lucide-react';
 
-const API_URL = 'https://apis-react-libreria.onrender.com/api/libros';
-const AUTORES_URL = 'https://apis-react-libreria.onrender.com/api/autores';
+// URLs actualizadas al backend de Render
+const API_URL = 'https://api-libreria-2m5i.onrender.com/api/libros';
+const AUTORES_URL = 'https://api-libreria-2m5i.onrender.com/api/autores';
 
 const Libros = () => {
   const [libros, setLibros] = useState([]);
@@ -76,7 +77,6 @@ const Libros = () => {
     e.preventDefault();
     setCargando(true);
     try {
-      console.log('Guardando libro...', libroEditando);
       if (libroEditando.id) {
         await axios.put(`${API_URL}/${libroEditando.id}`, libroEditando);
         mostrarAlerta('Libro actualizado exitosamente', 'exito');
@@ -86,13 +86,11 @@ const Libros = () => {
       }
       
       setModalAbierto(false);
-      
       setTimeout(() => {
         window.location.reload();
       }, 800);
 
     } catch (err) {
-      console.error('Error al guardar libro:', err);
       mostrarAlerta(err.response?.data?.mensaje || 'Error al guardar el libro', 'error');
     } finally {
       setCargando(false);
